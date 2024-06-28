@@ -1,6 +1,6 @@
 ﻿# SRI-Warehouse
 
- First, clone this repository using cmd: git clone (https://github.com/aarzookhambhoo/SRI-Warehouse).git
+ First, clone this repository using cmd: git clone https://github.com/aarzookhambhoo/SRI-Warehouse.git
 
 Open the cmd prompt and navigate to SRI-Warehouse/Project
 
