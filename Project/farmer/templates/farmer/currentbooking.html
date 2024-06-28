@@ -1,0 +1,82 @@
+{% extends 'farmerbase.html' %} 
+{% load static %}
+{% block title %} Farmer | CurrentBooking{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'farmer/css/styleprev.css' %}">
+<link rel="stylesheet" href="{% static 'farmer/css/cascade.css' %}" />
+<link rel="stylesheet" href="{% static 'farmer/css/booking.css' %}" />
+
+{% endblock %}
+
+{%block content%}
+<div class="outer-box container-fluid " >
+  <div class="bg-dgreen">
+      <div class="bg-dgreen py-3 d-flex flex-column justify-content-end align-items-center mb-4 rempad">
+          <div class="font-large"> <h1 class="text-center ff" style="font-size: 130%; text-decoration-line: none; -webkit-text-fill-color: white;">Current Bookings</h1></div>
+          <div class="w-100">
+              
+      </div>
+          
+      </div>
+  </div>
+
+
+<div class="container-fluid d-flex justify-content-center mt-5">
+  <a href="{% url 'farmer_currentbooking' %}"><button type="button"class="btn btn-dark btn-md mx-2 mx-sm-5 mb-3">Current Bookings</button></a>
+  <a href="{% url 'farmer_previousbooking'%}"><button type="button" class="btn btn-light btn-md btn-sm-lg mx-2 mx-sm-5 mb-3">Previous Bookings</button></a>
+</div>
+
+<div class="wrapper">
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Booking Reference No.</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col">Warehouse</th>
+          <th scope="col">Location</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price (₹)</th>
+        </tr>
+      </thead>
+      
+      {% for booking, warehouse, price in data %}
+        <tr >
+          <td scope="row" data-cell="Booking Number" style="width:15%;"><a href="{% url 'farmer_invoice' booking.id %}?back={{request.build_absolute_uri}}">Booking {{booking.id}}</a></td>
+          <td data-cell="Start Date" >{{booking.start_date}}</td>
+          <td data-cell="End Date">{{booking.end_date}}</td>
+          <td data-cell="Description" style="width:40%;">{{warehouse.name}}</td>
+          <td data-cell="Booked By">{{warehouse.city}}</td>
+          <td data-cell="Booked Status">{{booking.description}}</td>
+          <td >{{price}}</td>
+        </tr>
+      {% endfor %}  
+      
+     
+  
+    </table>
+  </div>
+</div>
+
+<nav aria-label="..."style="color: blue;">
+  <ul class="pagination pagination-sm justify-content-center" ">
+    {% if data.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a> </li>
+    <li class="page-item"> <a class="page-link" href="?page={{data.previous_page_number}}">Previous</a> </li>
+    {% endif %}
+    
+    {%for i in nums %}
+    <li class="page-item "><a class="page-link" href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>{{i}}
+    {%endfor%}
+
+    <li class="page-item disabled><a href="#" class="page-link">{% if data.has_next %}</a></li>
+
+    <li class="page-item"><a class="page-link" href="?page={{data.next_page_number}}">Next</a> </li>
+    {% endif %}
+
+  </ul>
+</nav>
+
+
+{% endblock %}

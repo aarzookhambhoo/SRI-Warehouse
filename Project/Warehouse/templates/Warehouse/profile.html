@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Owner | Profile{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'Warehouse/css/profile.css'%}">
+{% endblock %}
+
+{% block content %}
+<div class="container profile-wrapper" >
+    <div class="row">
+      <div class="col-12">
+        <div class="our-team">
+          <div class="picture">
+            <img class="img-fluid" src="{{warehouse_user.image.url}}",alt='{{image.url}}'>
+          </div>
+          <div class="team-content">
+            <h3 class="name">{{warehouse_user.first_name | capfirst}} {{warehouse_user.last_name | capfirst}}</h3>
+            <div class="details">
+              <h4>Details</h4>
+              <p>Email: {{warehouse_user.email}}</p>
+              <p>Phone No: {{warehouse_user.phone_no}}</p>
+            </div>
+          </div>
+          <a href="{% url 'warehouse_editprofile' %}">
+            <div class="edit">
+                <button>Edit Profile</button>
+              </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

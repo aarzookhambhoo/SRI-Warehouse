@@ -1,0 +1,16 @@
+.show-warehouse-row{
+  margin-top:20px;
+  background-color: #ccefb9;
+  border-radius: 5px;
+  padding:10px;
+}
+
+.show-warehouse-row{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.show-warehouse-row div{
+  flex:1;
+}

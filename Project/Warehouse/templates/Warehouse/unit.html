@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Warehouse {{warehouse.id}} | Unit {{unit.id}}{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'Warehouse/css/singleunit.css'%}">
+{% endblock %}
+{% block content %}
+
+
+<div class="wrapperr">
+  <div class="info-row">
+    <div class="ab">
+      <div class="ind-row">
+        <b>
+          Warehouse Associated: 
+        </b> {{ warehouse.name }}
+        
+      </div>
+      <div class="ind-row">
+        <b>
+          Unit Type: 
+        </b> {% if unit.type == "Hot" %}Standard{% else %}Temp-controlled {% endif %}
+      </div>
+      <div class="ind-row">
+        <b>
+          Unit Capacity (m<sup>3</sup>): 
+        </b> {{ unit.capacity }}
+      </div>
+      <div class="ind-row">
+        <b>
+          Unit Price: 
+        </b> ₹{{ unit.price }}
+      </div>
+      <div class="ind-row">
+          <button onclick="location.href='{% url 'all_units' id%}'" type="button" class> Go Back</button>
+      </div>
+    </div>
+</div>
+
+  <div class="table-container">
+    <table>
+      <tr class="table-heading">
+        <th>Booking Ref No.</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Description</th>
+        <th>Booked by</th>
+        <th>Contact No.</th>
+        <th>Booking Status</th>
+      </tr>
+      {% for booking, booking_status in data %}
+      <tr class="not-heading">
+        <td data-cell="Booking Number" style="width:15%;"><a href="{% url 'warehouse_invoice' booking.id %}?back={{request.build_absolute_uri}}">Booking {{booking.id}}</a></td>
+        <td data-cell="Start Date">{{ booking.start_date}}</td>
+        <td data-cell="End Date">{{ booking.end_date}}</td>
+        <td data-cell="Description" style="width:30%;">{{ booking.description}}</td>
+        <td data-cell="Booked By">{{ booking.farmer}}</td>
+        <td data-cell="Contact No.">{{ booking.farmer.phone_no}}</td>
+        <td {% if booking_status == 'Completed' %}class="completed" {% else %}class="on-going"{% endif %}  data-cell="Booked Status"><b>{{booking_status}}</b></td>        </tr>
+      {% endfor %}
+
+    </table>
+  </div>
+</div>
+  <nav aria-label="..."style="color: blue;">
+    <ul class="pagination pagination-sm justify-content-center" ">
+      {% if data.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a> </li>
+      <li class="page-item"> <a class="page-link" href="?page={{data.previous_page_number}}">Previous</a> </li>
+      {% endif %}
+      
+      {%for i in nums %}
+      <li class="page-item "><a class="page-link" href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>{{i}}
+      {%endfor%}
+  
+      <li class="page-item disabled><a href="#" class="page-link">{% if data.has_next %}</a></li>
+  
+      <li class="page-item"><a class="page-link" href="?page={{data.next_page_number}}">Next</a> </li>
+      {% endif %}
+  
+    </ul>
+  </nav>
+{% endblock %}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+{%load static %}
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Login And Sign up form</title>
+      <link rel="stylesheet" href="{% static 'signup.css' %}">
+      <script src="https://kit.fontawesome.com/cd6d96a6c5.js" crossorigin="anonymous"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+   </head>
+   <body>
+      
+<!-- For Aler messages -->
+      {% if messages %}    
+         {% for message in messages %}
+            {% if message.tags == "success" %}
+            <div class="alert success-alert">
+               <h3>{{message}}</h3>
+               <a class="close">&times;</a>
+            </div>
+            {% elif message.tags == "error" %}
+            <div class="alert danger-alert">
+               <h3>{{message}}</h3>
+               <a class="close" onclick="closeAlert(this)">&times;</a>
+            </div>
+            
+            {% else %}
+            <div class="alert warning-alert">
+               <h3>Warning Alert Message</h3>
+               <a class="close">&times;</a>
+            </div>
+            {% endif %}
+
+         {% endfor %}
+      {% endif %}
+
+      <div class="wrapper">
+         <!-- For Title -->
+        {% if page == 'register' %}
+         <div class="title-text">
+            <div class="title signup">
+               Signup
+            </div>
+         </div>
+         {% else %}
+         <div class="title-text">
+            <div class="title signup">
+               Log In
+            </div>
+         </div>
+         {% endif %}
+
+         <div class="form-container">
+            <!-- Logo -->
+            <div class="logo" style="text-align:center;">
+               <img src="{% static 'img/logo.jpg' %}">
+            </div>
+
+            <div class="form-inner">
+
+            {% if page == 'register' %}
+                <form action="" method="POST" class="signup">
+                    {% csrf_token %}
+                    <div class="field">
+                       <input type="email" placeholder="Email Address" name="email" required>
+                    </div>
+
+
+                    <div class="input-box">
+                     <div class="password-input--box field">
+                        <input type="password" placeholder="Password" name="password1" class="text--input-box" id = "s-password" required>
+                        {% comment %} <i class="fa-solid fa-eye"></i> {% endcomment %}
+                     </div>
+                  </div>
+                     {% comment %} <div class="field">  
+                       <input type="password" placeholder="Password" name="password1" required class="text--input-box">
+                    </div> {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
+
+
+
+                    <div class="field">
+                       <input type="password" placeholder="Confirm password" name="password2" required>
+                    </div>
+                    
+
+                     {% comment %} strong password  {% endcomment %}
+                     <div class="input-box" style="margin-top: 0.5em; ">
+								<div class="content" style="font-size:0.65em;">
+									<p>Password must contain:</p>
+									<ul class="requirement-list">
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 8 to 20 characters length</span>
+										</li>
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 1 number (0...9)</span>
+										</li>
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 1 lowercase letter (a...z)</span>
+										</li>
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 1 special symbol (#?!@$%^&*-_)</span>
+										</li>
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 1 uppercase letter (A...Z)</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+
+                     <div class="slide-controls" style="margin-top:0.75em">
+                        <input type="radio"  id="farmer" name="user" value="0" checked >
+                        <input type="radio"  id="Warehouse_Owner" name="user" value="1">
+                        <label for="farmer" class="slide farmer">Farmer</label>
+                        <label for="Warehouse_Owner" class="slide Warehouse_Owner">Warehouse Owner</label>
+                        <div class="slider-tab"></div>
+                    </div>
+
+                    <div class="field btn" style="margin-top:0.75em">
+                       <div class="btn-layer"></div>
+                       <input type="submit" value="Signup">
+                    </div>
+                    <div class="signup-link" style="margin-top:0.75em">
+                        Already a member? <a href="{% url 'login' %}">LogIn now</a>
+                     </div>
+
+                </form>
+
+            {% else %}
+                <form action="" class="login" method="POST">
+                {% csrf_token %}
+                  <div class="field">
+                     <input type="email" placeholder="Email Address" name="username" required>
+                  </div>
+                  <div class="field">
+                     <input type="password" placeholder="Password" name="password" required>
+                  </div>
+                  <div class="pass-link">
+                     <a href="{% url 'reset_password' %}">Forgot password?</a>
+                  </div>
+                  <input type="hidden" id="next_page" name="next" value="{{next}}">
+                  <div class="field btn">
+                     <div class="btn-layer"></div>
+                     <input type="submit" value="Login">
+                  </div>
+                  <div class="signup-link">
+                     Not a member? <a href="{% url 'register' %}">Signup now</a>
+                  </div>
+               </form>
+            
+            {% endif %}
+
+            <form action="#">
+                <div>
+                   <input>
+                </div>
+             </form>
+            </div>
+         </div>
+      </div>
+      <script src="{% static 'js/signup.js'%}"></script>
+      <script src="{% static 'js/strong_pass.js'%}"></script>
+   </body>
+   
+</html>
